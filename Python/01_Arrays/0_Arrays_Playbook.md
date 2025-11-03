@@ -217,15 +217,38 @@ o/p :-
 
 
 ### Broadcasting
-Allows operations on different shapes:
+
+**What it is:**  
+Broadcasting lets NumPy perform math on arrays with **different shapes** by **auto-expanding** smaller arrays along matching dimensions.
+
+##### ⚙️ How It Works
+1. Compare shapes **from right to left**.  
+2. Dimensions are **compatible** if:
+   - They are equal, or  
+   - One of them is `1`.  
+3. NumPy "stretches" the smaller array (virtually, not copying data).
+
+##### 🧩 Examples
 
 ```python
-a = np.array([[1, 2, 3],
-              [4, 5, 6]])
-b = np.array([10, 20, 30])
-print(a + b)
+import numpy as np
+
+# Example 1 — Row broadcasting
+A = np.array([[1,2,3],[4,5,6]])   # shape (2,3)
+B = np.array([10,20,30])          # shape (3,)
+print(A + B)
 # [[11 22 33]
 #  [14 25 36]]
+
+# Example 2 — Scalar broadcasting
+x = np.array([1,2,3])
+print(x * 10)
+```
+Incompatible shapes : 
+
+```
+# [10 20 30]
+(2,3) vs (2,2) ❌
 ```
 
 ---
@@ -418,42 +441,36 @@ Add `np.array([10,20,30])` to:
 3. Compute `np.cumsum` and `np.cumprod` on `[1,2,3,4]`
 4. Find unique elements in `[1,2,2,3,3,3,4]`
 
-#### 🧠 8. Boolean Masking & Fancy Indexing
-1. Create `[1,2,3,4,5,6]` and print only even numbers
-2. Replace all numbers > 3 with 99
-3. Use fancy indexing to print elements at positions `[0, 2, 4]`
+## 🧩 Array Practice Questions
 
-#### 🧩 9. Stacking & Splitting
-1. Stack `[1,2,3]` and `[4,5,6]` vertically and horizontally
-2. Split `[10,20,30,40,50,60]` into 3 equal parts
+### 1. Reshaping & Flattening
+- Reshape a 1D array of 12 elements into a 3x4 array.
+- Flatten a 2D array into 1D using both `flatten()` and `ravel()`. Show the difference.
+- Reshape a 3x4 array into a 2x6 array.
+- Given a 2D array, convert it to a 1D array and back to 2D with a different shape.
 
-#### 📊 10. Matrix & Linear Algebra
-1. Create identity matrix of size 3 using `np.eye(3)`
-2. Compute determinant of `[[1,2],[3,4]]`
-3. Compute inverse of `[[4,7],[2,6]]`
-4. Compute transpose of a 2×3 matrix
-5. Compute dot product of two 3×1 vectors
+### 2. Stacking & Splitting
+- Stack two 1D arrays vertically and horizontally.
+- Split a 2D array into two equal parts along rows.
+- Concatenate three arrays along a new axis.
+- Split a 1D array into three sub-arrays.
 
-#### 🎲 11. Random & Range Functions
-1. `np.arange(0, 10, 2)`
-2. `np.linspace(0, 1, 5)`
-3. Generate 3x3 random matrix using `np.random.rand`
-4. Generate random integers 1–100 with shape `(2,3)`
-5. Set seed with `np.random.seed(0)` and generate a random 1D array of size 5
+### 3. Broadcasting
+- Add a 1D array to each row of a 2D array using broadcasting.
+- Multiply a column vector with a 2D array using broadcasting.
+- Subtract a scalar from every element in a 2D array.
 
-### 🧩 Challenge Mini-Practices (Review)
-1. Create a list → convert to NumPy array → square every element
-2. Create a NumPy array → slice out all odd-indexed elements
-3. Stack two 2D arrays vertically → flatten → compute mean
-4. Replace all negative numbers in an array with 0
-5. Reshape 1D array of size 12 into `(3,4)` and get its 2nd column
+### 4. Advanced Indexing & Slicing
+- Select every other column from a 2D array.
+- Reverse the rows of a 2D array.
+- Extract a submatrix from a larger matrix using slicing.
+- Use boolean indexing to select all elements greater than a given value.
 
-### 🧠 Optional (Advanced)
-1. Use `np.concatenate()` to merge arrays of different shapes along axis 0
-2. Use `np.where()` to replace all elements < 5 with 0
-3. Use `np.all()` and `np.any()` on a boolean array
-4. Use `np.dot()` to compute the product of 2D matrices
-5. Measure time of NumPy vs list operation with `timeit`
+### 5. Sorting & Searching
+- Sort each row of a 2D array.
+- Find the indices of the maximum value in a 2D array.
+- Search for a specific value and return its index.
+- Sort a 1D array in descending order.
 
 ---
 
