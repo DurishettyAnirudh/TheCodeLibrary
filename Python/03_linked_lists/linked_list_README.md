@@ -1,0 +1,354 @@
+# 🧠 Linked Lists Playbook - Complete Guide & Practice
+
+## 📚 Table of Contents
+1. What is a Linked List?
+2. Why Linked List? (Comparison with Arrays)
+3. Basic Terminology
+4. Types of Linked Lists
+5. Node Structure in Python
+6. Singly Linked List Implementation
+7. Key Operations & Time Complexities
+8. Reversing a Linked List
+9. Detecting a Loop (Floyd’s Cycle Algorithm)
+10. Middle Element of a Linked List
+11. Merging Two Sorted Linked Lists
+12. Common Interview Problems
+13. When to Use Linked Lists
+14. Linked List vs Other DS
+15. Real-World Applications
+16. Memory Visualization
+17. Next Step
+18. Implementation Questions (Build Fundamentals)
+19. Practice Questions (Pointer Logic + Problem Solving)
+20. Application Questions (Real Use Cases)
+
+---
+
+## 1. What is a Linked List?
+A Linked List is a linear data structure where elements (nodes) are connected using pointers (links) instead of being stored in contiguous memory (like arrays).
+
+Each node has:
+- `data`: value to store
+- `next`: reference to next node
+
+Example:
+```
+head → [10|*] → [20|*] → [30|None]
+```
+
+---
+
+## 2. Why Linked List? (Comparison with Arrays)
+| Feature         | Array         | Linked List         |
+|-----------------|--------------|--------------------|
+| Memory          | Contiguous   | Non-contiguous     |
+| Insertion/Deletion | O(n)      | O(1) (if position known) |
+| Access (index)  | O(1)         | O(n)               |
+| Memory overhead | None         | Extra pointer/node |
+| Size flexibility| Fixed        | Dynamic            |
+
+**When to use:** Frequent insertions/deletions, dynamic memory use.
+
+---
+
+## 3. Basic Terminology
+- **Node**: Basic unit (data + link)
+- **Head**: First node
+- **Tail**: Last node (next = None)
+- **Traversal**: Visiting all nodes from head to tail
+- **Length**: Number of nodes
+
+---
+
+## 4. Types of Linked Lists
+- **Singly Linked List**: Each node points to next node only
+- **Doubly Linked List**: Each node has `prev` and `next` pointers
+- **Circular Linked List**: Last node points back to head
+
+---
+
+## 5. Node Structure in Python
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+```
+
+---
+
+## 6. Singly Linked List Implementation
+```python
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert_at_beginning(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+    def insert_at_end(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+
+    def insert_after(self, prev_data, data):
+        current = self.head
+        while current and current.data != prev_data:
+            current = current.next
+        if not current:
+            print("Node not found")
+            return
+        new_node = Node(data)
+        new_node.next = current.next
+        current.next = new_node
+
+    def delete_node(self, key):
+        current = self.head
+        if current and current.data == key:
+            self.head = current.next
+            return
+        prev = None
+        while current and current.data != key:
+            prev = current
+            current = current.next
+        if not current:
+            print("Node not found")
+            return
+        prev.next = current.next
+
+    def search(self, key):
+        current = self.head
+        while current:
+            if current.data == key:
+                return True
+            current = current.next
+        return False
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+```
+
+---
+
+## 7. Key Operations & Time Complexities
+| Operation              | Description         | Time Complexity |
+|------------------------|--------------------|-----------------|
+| Traversal              | Visit each node    | O(n)            |
+| Search                 | Find element       | O(n)            |
+| Insert at beginning    | Add new head       | O(1)            |
+| Insert at end          | Append element     | O(n)            |
+| Insert after node      | Mid insertion      | O(n)            |
+| Delete node by value   | Remove by data     | O(n)            |
+| Reverse list           | Reverse links      | O(n)            |
+
+---
+
+## 8. Reversing a Linked List
+**Iterative:**
+```python
+def reverse(self):
+    prev = None
+    current = self.head
+    while current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    self.head = prev
+```
+**Recursive:**
+```python
+def reverse_recursive(self, node):
+    if node is None or node.next is None:
+        return node
+    rest = self.reverse_recursive(node.next)
+    node.next.next = node
+    node.next = None
+    return rest
+```
+
+---
+
+## 9. Detecting a Loop (Floyd’s Cycle Algorithm)
+```python
+def detect_loop(self):
+    slow = self.head
+    fast = self.head
+    while slow and fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            return True
+    return False
+```
+
+---
+
+## 10. Middle Element of a Linked List
+```python
+def find_middle(self):
+    slow = fast = self.head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    return slow.data
+```
+
+---
+
+## 11. Merging Two Sorted Linked Lists
+```python
+def merge_sorted(l1, l2):
+    dummy = Node(0)
+    tail = dummy
+    while l1 and l2:
+        if l1.data < l2.data:
+            tail.next = l1
+            l1 = l1.next
+        else:
+            tail.next = l2
+            l2 = l2.next
+        tail = tail.next
+    tail.next = l1 or l2
+    return dummy.next
+```
+
+---
+
+## 12. Common Interview Problems
+- Reverse a linked list
+- Detect loop
+- Find middle element
+- Merge two sorted lists
+- Remove duplicates (sorted/unsorted)
+- Find nth node from end
+- Delete node without head pointer
+- Check if list is palindrome
+- Intersection of two linked lists
+
+---
+
+## 13. When to Use Linked Lists
+**Use when:**
+- Frequent insertions/deletions
+- Unknown/changing data size
+- Memory fragmentation is fine
+**Avoid when:**
+- Random access is needed
+- Cache efficiency matters
+
+---
+
+## 14. Linked List vs Other DS
+| DS         | Benefit           | Drawback                |
+|------------|-------------------|-------------------------|
+| Array      | Fast indexing     | Costly insertion/deletion|
+| LinkedList | Dynamic size      | Slow access             |
+| Stack      | Simple LIFO       | Restricted operations   |
+| Queue      | FIFO              | Restricted operations   |
+
+---
+
+## 15. Real-World Applications
+- Music/playlist navigation
+- Browser history (Doubly LL)
+- Undo functionality
+- Memory management (OS kernels)
+- Hash map chaining (collision handling)
+
+---
+
+## 16. Memory Visualization
+Each node stored separately:
+```
+0x100: [10 | 0x200]
+0x200: [20 | 0x300]
+0x300: [30 | None]
+head = 0x100
+```
+Pointer references form the “links”.
+
+---
+
+## 17. Next Step
+After mastering Linked Lists → move to:
+- Stacks & Queues (can be implemented using LL)
+- Trees (linked structure with multiple pointers)
+- Graphs (linked adjacency representation)
+
+---
+
+## 18. Implementation Questions (Build Fundamentals)
+- Implement a LinkedList class from scratch (no templates)
+- Functions: insert_at_beginning(), insert_at_end(), display()
+- Insert at a specific position
+- Insert before a given node value
+- Delete by position
+- Delete last node without using length
+- Delete all occurrences of a value
+- Count nodes (get_length())
+- Check if list is empty
+- Find max and min values
+- Implement reverse() (iterative + recursive)
+- Implement merge_sorted(l1, l2) manually
+- Implement detect_loop() and remove_loop()
+- Implement find_middle()
+- Implement nth_node_from_end(n) (two-pointer technique)
+- Implement a Doubly Linked List (insert_before, insert_after, delete_node)
+- Implement a Circular Linked List (insert_at_end, delete_at_beginning, traverse_once)
+
+---
+
+## 19. Practice Questions (Pointer Logic + Problem Solving)
+### Level 1 — Warm-up
+- Print the middle element of a linked list
+- Reverse the linked list
+- Detect a loop in the linked list
+- Find length of a loop (if exists)
+- Merge two sorted linked lists
+- Remove duplicates from a sorted linked list
+
+### Level 2 — Intermediate
+- Remove duplicates from an unsorted linked list (use hashing)
+- Find the intersection point of two linked lists
+- Check if a linked list is palindromic
+- Find nth node from end using two pointers
+- Delete node without head pointer
+
+### Level 3 — Advanced / Pointer Mastery
+- Add two numbers represented by linked lists
+- Flatten a linked list (multi-level lists)
+- Sort a linked list using merge sort
+- Reorder list — alternate head and tail
+- Remove nth node from end
+- Detect and remove loop without extra space
+- Segregate even and odd nodes
+- Rotate a linked list k times
+- Swap nodes in pairs
+- Reverse nodes in k-group
+
+---
+
+## 20. Application Questions (Real Use Cases)
+- Browser History Simulation (Doubly LL)
+- Music Playlist (Circular LL)
+- Undo/Redo Stack using Linked Lists
+- LRU Cache Implementation (Doubly LL + HashMap)
+- Queue using Linked List
+- Polynomial Representation
+- Memory Block Manager
+
+---
+
+> **Master these linked list concepts and problems to be DSA-ready!**
